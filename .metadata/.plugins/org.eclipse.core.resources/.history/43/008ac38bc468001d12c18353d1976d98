@@ -1,0 +1,266 @@
+package grammarlyExtTest;
+
+import java.io.File;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import static org.testng.Assert.assertEquals;
+
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import org.testng.Assert;
+
+public class Main {
+	public static void main(String[] args) throws InterruptedException, AWTException 
+	{
+				
+		
+		      System.setProperty("webdriver.chrome.driver","chromedriverarm");
+		      //ChromeOptions object
+		      //ChromeOptions options= new ChromeOptions();
+		      //configure path of .crx file
+		      //options.addExtensions(new File("grammarly-selenium.crx"));
+		      //DesiredCapabilities object
+		      //DesiredCapabilities cp = DesiredCapabilities.chrome();
+		      // set browser capability
+		      //cp.setCapability(ChromeOptions.CAPABILITY, options);
+		      // add capability to driver
+		      //WebDriver driver = new ChromeDriver(cp);
+		      
+		      //URL launch
+		      //driver.get("https://www.google.com/");
+		      //browser close
+		      //driver.close();
+		      
+		      
+		        ChromeOptions options = new ChromeOptions();
+		        options.addArguments("load-extension=grammarlyzipfile");
+		        options.addArguments("--incognito");
+
+		        //DesiredCapabilities capabilities = new DesiredCapabilities();
+		        //capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+		        ChromeDriver driver = new ChromeDriver(options);
+		        
+		        //driver.get("chrome://extensions://neoafllhelabcnhjmalikiodmeepajhk");
+		        driver.get("chrome://extensions/?id=neoafllhelabcnhjmalikiodmeepajhk");
+		        String extensionWindow=driver.getWindowHandle();
+		        
+		       
+		        driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		        
+		        
+		 
+		        // This method is also working      
+//		        JavascriptExecutor js = (JavascriptExecutor) driver; 
+//		        js.executeScript
+//		        ("document.querySelector('extensions-manager').shadowRoot.querySelector('#viewManager > extensions-detail-view.active').shadowRoot.querySelector('div#container.page-container > div.page-content > div#options-section extensions-toggle-row#allow-incognito').shadowRoot.querySelector('label#label input').click()");
+
+		        
+		       
+		        
+		        //This also works
+		        Actions action = new Actions(driver);
+		        for(int i=0;i<4;i++)
+		        {
+		        	action.sendKeys(Keys.TAB).perform();
+		        }
+		        action.sendKeys(Keys.ENTER).perform();
+		        
+		       
+		        
+		        
+
+		        
+		        
+		        
+		        driver.get("https://www.onlinetexteditor.com/");
+		        WebElement textArea= driver.findElement(By.tagName("textarea"));
+		        
+//		        action.click(textArea);
+//		        textArea.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+//		        //textArea.sendKeys(Keys.CONTROL+"A");
+//		        textArea.sendKeys(Keys.DELETE);
+		        textArea.clear();
+		        
+		        
+		        textArea.sendKeys(" Seplling misthake ");
+		        action.click(textArea);
+		        
+		        Thread.sleep(10000);
+		        Set<String> handles=driver.getWindowHandles();
+		        
+		        System.out.println(handles.size());
+		        
+		        driver.switchTo().window(extensionWindow);
+		        
+		        //TC-1 checking if grammarly is enabled
+		        
+		        List<WebElement> grammarlyCheck= driver.findElements(By.tagName("grammarly-extension"));
+		        
+		        for ( WebElement tempWebElement :grammarlyCheck)
+		        {
+		        	
+		        	
+		        		assertEquals(tempWebElement.getAttribute("data-grammarly-shadow-root"), "true");
+		        		System.out.println("Assertion passed : Grammarly Extension is enabled ");
+		        	
+		        }
+		        
+		        //clearning after assertion
+		        
+		        textArea.clear();
+		        
+		        
+		        
+		        //grammaer login in website
+			       driver.get("https://www.grammarly.com/signin");
+			       Thread.sleep(2000);
+
+			       
+			        WebElement emailGrammarlyInp=driver.findElement(By.cssSelector("input[data-qa='txtEmail']")); 
+			        emailGrammarlyInp.sendKeys("meganathtest@gmail.com");
+			        driver.findElement(By.cssSelector("button[data-qa='btnLogin']")).click();
+			        WebElement pwdGrammarlyInp=driver.findElement(By.cssSelector("input[data-qa='txtPassword']"));
+			        pwdGrammarlyInp.sendKeys("Mipe@2020");
+			        driver.findElement(By.cssSelector("button[data-qa='btnLogin']")).click(); 
+			        
+			        Thread.sleep(7000);
+
+			        //explicit wait
+			        WebDriverWait wait =new WebDriverWait(driver, 45);
+			       
+			        
+			        try {
+			        	
+			        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div[data-name='new-doc-add-btn']"))).click();
+			        
+			        
+			        
+			        }
+			        catch(Exception ex)
+			        {
+			        
+			        	wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div[data-name='new-doc-add-btn']"))).click();
+				        
+			        }
+			        
+			        System.out.println("step after error");
+
+			        
+			        WebElement grammarlyTextArea= wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"page\"]/div/div[2]/div[2]/div/div[4]/div[3]/div/main/div/div/div[10]/div[1]/p")));
+			      
+			        System.out.println("step after+ error");
+			        
+			        Thread.sleep(5000);
+			        
+			        
+			        // TC-2 
+			        //action.sendKeys(Keys.chord(" Seplling misthake "));
+			        grammarlyTextArea.sendKeys(" Seplling misthake ");
+			        
+			        WebElement Checkingword;
+			        Thread.sleep(10000);
+			      
+			        List<WebElement> mistypeWordscards= driver.findElements(By.cssSelector("div[data-role='animation-wrapper']"));
+			       
+			        mistypeWordscards.get(0).click();
+			        Checkingword=driver.findElement(By.cssSelector("div[data-name='card/apply-insert']"));
+			        
+			        assertEquals(Checkingword.getText(), "Spelling");
+			        System.out.println("TC-2 Pass");
+			        
+			        
+			        //2nd word check add later
+//			        mistypeWordscards.get(2).click();
+//			        Checkingword=driver.findElement(By.cssSelector("div[data-name='card/apply-insert']"));
+//			        
+//			        assertEquals(Checkingword.getText(), "mistake");
+//			        System.out.println("TC-2 Pass");
+			        
+			        
+			        
+			        
+			        
+			        
+		        
+		        //driver.findElement(By.cssSelector("div[data-grammarly-part='btnCancelOnboarding']")).click();
+		        
+//		        Robot robot=new Robot();
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//
+//		        
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyRelease(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_TAB);
+//		        robot.keyPress(KeyEvent.VK_ENTER);
+//		        robot.keyRelease(KeyEvent.VK_ENTER);
+//		        
+		        
+		        
+		        
+		        
+		        //WebElement incognitoset=driver.findElement(By.id("description"));
+		        //System.out.println(incognitoset.getText());
+		        //Thread.sleep(16000);
+		       
+		        System.out.println(driver.getCurrentUrl());
+		        //WebElement incognitoButton=driver.findElement(By.id("crToggle"));
+		        //incognitoButton.click();
+		        //WebElement extnStatus=driver.findElement(By.id("enable-section"));
+		        //String statusStr= extnStatus.getText();
+		       
+		        //System.out.println(statusStr);	
+		        //Thread.sleep(4000);
+		        
+		        
+
+	        
+		        
+		        
+		        //System.out.println("Opening extension");
+//		        driver.get("chrome-extension://mooikfkahbdckldjjndioackbalphokd/index.html");
+//
+//		        driver.navigate().refresh();
+//		        System.out.println("Refresh successfully");
+		        
+		        
+		        
+		   }
+
+	}
+
+

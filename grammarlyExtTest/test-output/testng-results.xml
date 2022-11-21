@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="3" passed="3">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="193351" started-at="2022-11-20T15:39:38 PST" finished-at="2022-11-20T15:42:51 PST">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="193351" started-at="2022-11-20T15:39:38 PST" finished-at="2022-11-20T15:42:51 PST">
+      <class name="grammarlyExtTest.grammarly">
+        <test-method status="PASS" signature="testCase1CheckingGrammarlyInstalled()[pri:1, instance:grammarlyExtTest.grammarly@2a17b7b6]" name="testCase1CheckingGrammarlyInstalled" duration-ms="29386" started-at="2022-11-20T15:39:38 PST" finished-at="2022-11-20T15:40:07 PST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testCase1CheckingGrammarlyInstalled -->
+        <test-method status="PASS" signature="testCase2CheckingPositiveResponse()[pri:2, instance:grammarlyExtTest.grammarly@2a17b7b6]" name="testCase2CheckingPositiveResponse" duration-ms="67289" started-at="2022-11-20T15:40:07 PST" finished-at="2022-11-20T15:41:14 PST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testCase2CheckingPositiveResponse -->
+        <test-method status="PASS" signature="testCase3CheckingNegativeResponse()[pri:3, instance:grammarlyExtTest.grammarly@2a17b7b6]" name="testCase3CheckingNegativeResponse" duration-ms="96612" started-at="2022-11-20T15:41:14 PST" finished-at="2022-11-20T15:42:51 PST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testCase3CheckingNegativeResponse -->
+      </class> <!-- grammarlyExtTest.grammarly -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
